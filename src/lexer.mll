@@ -25,6 +25,7 @@ rule token = parse
 
   (* Keywords *)
   | "import" { IMPORT }
+  | "let" { LET }
 
   (* Symbols *)
   | "..." { ELLIPSIS }
