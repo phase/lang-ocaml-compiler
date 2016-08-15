@@ -1,0 +1,17 @@
+Name: Lang
+Version: 0.0.0
+Synopsis: Compiler for a language
+Authors: Jadon Fowler <jadonflower@gmail.com>
+License: https://www.mozilla.org/en-US/MPL/2.0/
+
+Description: Compiler for a language
+Homepage: http://jadonfowler.xyz/
+
+OASISFormat: 0.4
+BuildTools: ocamlbuild
+Plugins: META (0.4), DevFiles (0.4)
+
+Executable "lang"
+  Path: src
+  MainIs: main.ml
+  CompiledObject: best
