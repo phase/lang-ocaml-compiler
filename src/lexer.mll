@@ -12,20 +12,20 @@ let not_zero = ['1'-'9']
 
 let identifier = ['a'-'z' 'A'-'Z' '_'] ['a'-'z' 'A'-'Z' '_' '0'-'9']*
 
-rule token = parse
-  | [' ' '\t' '\n']	{ token lexbuf }
+rule tokenize = parse
+  | [' ' '\t']	{ token lexbuf }
+  | ['\n' ';'] { DELIMITER }
 
   (* Numbers *)
   | hex_prefix hex_digit+ { NUM (int_of_string lexbuf) }
   | octal_prefix octal_digit+ { NUM (int_of_string lexbuf) }
-  | digit+ { NUM (int_of_string lexbuf) }
-  | digit+ "." digit* { NUM (float_of_string lexbuf) }
+  | decimal_digit+ { NUM (int_of_string lexbuf) }
+  (* | decimal_digit+ "." digit* { NUM (float_of_string lexbuf) } *)
 
   | identifier { IDENTIFIER lexbuf }
 
   (* Keywords *)
   | "import" { IMPORT }
-  | "let" { LET }
 
   (* Symbols *)
   | "..." { ELLIPSIS }
