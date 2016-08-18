@@ -13,19 +13,19 @@ let not_zero = ['1'-'9']
 let identifier = ['a'-'z' 'A'-'Z' '_'] ['a'-'z' 'A'-'Z' '_' '0'-'9']*
 
 rule tokenize = parse
-  | [' ' '\t']	{ token lexbuf }
-  | ['\n' ';'] { DELIMITER }
+  | ['\n' ' ' '\t']	{ tokenize lexbuf }
+  | [';'] { DELIMITER }
 
   (* Numbers *)
-  | hex_prefix hex_digit+ { NUM (int_of_string lexbuf) }
-  | octal_prefix octal_digit+ { NUM (int_of_string lexbuf) }
-  | decimal_digit+ { NUM (int_of_string lexbuf) }
-  (* | decimal_digit+ "." digit* { NUM (float_of_string lexbuf) } *)
-
-  | identifier { IDENTIFIER lexbuf }
+  | hex_prefix hex_digit+ { NUM (int_of_string (Lexing.lexeme lexbuf)) }
+  | octal_prefix octal_digit+ { NUM (int_of_string (Lexing.lexeme lexbuf)) }
+  | decimal_digit+ { NUM (int_of_string (Lexing.lexeme lexbuf)) }
+  (* | decimal_digit+ "." digit* { NUM (float_of_string (Lexing.lexeme lexbuf)) } *)
 
   (* Keywords *)
   | "import" { IMPORT }
+
+  | identifier { IDENTIFIER (Lexing.lexeme lexbuf) }
 
   (* Symbols *)
   | "..." { ELLIPSIS }
@@ -63,5 +63,5 @@ rule tokenize = parse
   | ">" { GREATER_THAN }
   | "=" { EQUAL }
 
-  | _		  { token lexbuf }
+  | _		  { tokenize lexbuf }
   | eof		{ EOF }
