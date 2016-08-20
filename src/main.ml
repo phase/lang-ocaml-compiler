@@ -1,7 +1,8 @@
 let compile file =
   let lexbuf = Lexing.from_channel (open_in file) in
   let ast = Parser.program Lexer.tokenize lexbuf in
-  Codegen.generate ast
+  let backend = new Codegen.backend_c in
+  backend#generate ast
 
 let () =
   if Array.length Sys.argv > 1 then

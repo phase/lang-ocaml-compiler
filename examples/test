@@ -4,5 +4,6 @@ import something_else
 a : int = 7
 
 add(a : int, b : int) : int {
-    c : int = a + b
+    c = a + b
+    d = c + a + b
 }

@@ -63,6 +63,7 @@ argument_list:
 
 function_definition:
   IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN COLON IDENTIFIER block { {fsig = {typ = $6; name = $1}; arguments = $3; statements = $7} }
+  | IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN block { {fsig = {typ = ""; name = $1}; arguments = $3; statements = $5} }
   ;
 
 external_declaration:
