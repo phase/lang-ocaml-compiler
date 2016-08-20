@@ -17,11 +17,8 @@ type statement =
   | Blank
   | VariableDeclaration of variable
 
-type argument =
-  | Argument of variable_signature
-
 type func = { fsig : variable_signature;
-              arguments : argument list;
+              arguments : variable_signature list;
               statements : statement list }
 
 type external_declaration =

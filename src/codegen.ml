@@ -4,6 +4,8 @@ exception Codegen_error of string
 
 let codegen_error s = raise (Codegen_error s)
 
+let string_of_variable_signature v = v.typ ^ " " ^ v.name
+
 let rec string_of_expression exp =
   match exp with
   | Literal l -> (match l with
@@ -14,11 +16,27 @@ let rec string_of_expression exp =
   | Mul (e1,e2) -> "(" ^ (string_of_expression e1) ^ " * " ^ (string_of_expression e2) ^ ")"
   | Div (e1,e2) -> "(" ^ (string_of_expression e1) ^ " / " ^ (string_of_expression e2) ^ ")"
 
+let string_of_variable v =
+  (string_of_variable_signature v.vsig) ^ " = " ^ (string_of_expression v.exp) ^ ";\n"
+
+let string_of_arguments a =
+  let args = ref "" in
+  List.iter (fun x -> args := !args ^ (string_of_variable_signature x) ^ ", ") a;
+  let length = String.length !args in
+  String.sub !args 0 (length - 2)
+
+let string_of_statement s =
+  match s with
+  | Blank -> ";"
+  | VariableDeclaration v -> string_of_variable v
+
 let generate_variable v =
-  print_string (v.vsig.typ ^ " " ^ v.vsig.name ^ " = " ^ (string_of_expression v.exp) ^ ";\n")
+  print_string (string_of_variable v)
 
 let generate_function f =
-  print_string (f.fsig.typ ^ " " ^ f.fsig.name ^ "() {\n}\n")
+  print_string ((string_of_variable_signature f.fsig) ^ "(" ^ (string_of_arguments f.arguments) ^ ") {\n");
+  List.iter (fun x -> print_string ("    " ^ (string_of_statement x))) f.statements;
+  print_string "}\n"
 
 let generate_declaration declaration =
   match declaration with

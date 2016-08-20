@@ -58,7 +58,7 @@ block:
 argument_list:
   /* empty */ { [] }
   | argument_list COMMA argument_list { List.append $1 $3 }
-  | variable_signature { Argument $1 :: [] }
+  | variable_signature { $1 :: [] }
   ;
 
 function_definition:
