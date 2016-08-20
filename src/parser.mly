@@ -33,12 +33,12 @@ expression:
   ;
 
 variable_signature:
-  IDENTIFIER IDENTIFIER { VariableSignature ($1, $2) }
-  | IDENTIFIER { VariableSignature ("", $1) }
+  IDENTIFIER IDENTIFIER { {typ = $1; name = $2} }
+  | IDENTIFIER { {typ = ""; name = $1} }
   ;
 
 variable_declaration:
-  variable_signature EQUAL expression { Variable ($1, $3) }
+  variable_signature EQUAL expression { {vsig = $1; exp = $3} }
   ;
 
 statement:
@@ -62,7 +62,7 @@ argument_list:
   ;
 
 function_definition:
-  variable_signature LEFT_PAREN argument_list RIGHT_PAREN block { Function ($1, $3, $5) }
+  variable_signature LEFT_PAREN argument_list RIGHT_PAREN block { {fsig = $1; arguments = $3; statements = $5} }
   ;
 
 external_declaration:

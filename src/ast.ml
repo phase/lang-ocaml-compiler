@@ -9,11 +9,9 @@ type expression =
   | Mul of expression * expression
   | Div of expression * expression
 
-type variable_signature =
-  | VariableSignature of string * string
+type variable_signature = { typ : string; name : string }
 
-type variable =
-  | Variable of variable_signature * expression
+type variable = { vsig : variable_signature; exp : expression }
 
 type statement =
   | Blank
@@ -22,12 +20,13 @@ type statement =
 type argument =
   | Argument of variable_signature
 
-type f =
-  | Function of variable_signature * argument list * statement list
+type func = { fsig : variable_signature;
+              arguments : argument list;
+              statements : statement list }
 
 type external_declaration =
   | GlobalVariableDeclaration of variable
-  | GlobalFunctionDefinition of f
+  | GlobalFunctionDefinition of func
 
 type ast =
   | Program of string list * external_declaration list
