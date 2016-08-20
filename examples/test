@@ -1,8 +1,8 @@
 import stdio
 import something_else
 
-int a = 7
+a : int = 7
 
-int add(int a, int b) {
-    int c = a + b
+add(a : int, b : int) : int {
+    c : int = a + b
 }

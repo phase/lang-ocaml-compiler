@@ -11,7 +11,7 @@
 %token DIV_ASSIGN MOD_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN
 %token RIGHT_OP LEFT_OP INC_OP DEC_OP AND_OP OR_OP LE_OP GE_OP EQ_OP NE_OP
 %token LEFT_PAREN RIGHT_PAREN LEFT_BRACE RIGHT_BRACE COMMA PLUS MINUS STAR
-%token FORWARD_SLASH BACK_SLASH LESS_THAN GREATER_THAN EQUAL
+%token FORWARD_SLASH BACK_SLASH LESS_THAN GREATER_THAN EQUAL COLON
 
 %start program
 %type <Ast.ast> program
@@ -33,7 +33,7 @@ expression:
   ;
 
 variable_signature:
-  IDENTIFIER IDENTIFIER { {typ = $1; name = $2} }
+  IDENTIFIER COLON IDENTIFIER { {typ = $3; name = $1} }
   | IDENTIFIER { {typ = ""; name = $1} }
   ;
 
@@ -62,7 +62,7 @@ argument_list:
   ;
 
 function_definition:
-  variable_signature LEFT_PAREN argument_list RIGHT_PAREN block { {fsig = $1; arguments = $3; statements = $5} }
+  IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN COLON IDENTIFIER block { {fsig = {typ = $6; name = $1}; arguments = $3; statements = $7} }
   ;
 
 external_declaration:

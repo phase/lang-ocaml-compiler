@@ -62,6 +62,7 @@ rule tokenize = parse
   | "<" { LESS_THAN }
   | ">" { GREATER_THAN }
   | "=" { EQUAL }
+  | ":" { COLON }
 
   | _		  { tokenize lexbuf }
   | eof		{ EOF }
