@@ -1,6 +1,7 @@
 let compile file =
   let lexbuf = Lexing.from_channel (open_in file) in
   let ast = Parser.program Lexer.tokenize lexbuf in
+  let ast = Ast.analyze ast in
   let backend = new Codegen.backend_c in
   backend#generate ast
 

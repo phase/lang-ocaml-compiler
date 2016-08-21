@@ -62,8 +62,8 @@ argument_list:
   ;
 
 function_definition:
-  IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN COLON IDENTIFIER block { {fsig = {typ = $6; name = $1}; arguments = $3; statements = $7} }
-  | IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN block { {fsig = {typ = ""; name = $1}; arguments = $3; statements = $5} }
+  IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN COLON IDENTIFIER block { {fsig = {typ = $6; name = $1}; arguments = $3; statements = $7; scope = []} }
+  | IDENTIFIER LEFT_PAREN argument_list RIGHT_PAREN block { {fsig = {typ = ""; name = $1}; arguments = $3; statements = $5; scope = []} }
   ;
 
 external_declaration:
@@ -87,5 +87,5 @@ import_list:
   ;
 
 program:
-  import_list external_declaration_list { Program ($1, $2) }
+  import_list external_declaration_list { {imports = $1; declarations = $2; scope = []} }
   ;

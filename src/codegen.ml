@@ -1,7 +1,6 @@
 open Ast
 
 exception Codegen_error of string
-
 let codegen_error s = raise (Codegen_error s)
 
 (* Interface for Codegens *)
@@ -33,8 +32,7 @@ class backend_c = object(self)
       | Sub (e1,e2) -> "(" ^ (sexp e1) ^ " - " ^ (sexp e2) ^ ")"
       | Mul (e1,e2) -> "(" ^ (sexp e1) ^ " * " ^ (sexp e2) ^ ")"
       | Div (e1,e2) -> "(" ^ (sexp e1) ^ " / " ^ (sexp e2) ^ ")"
-    in
-    sexp exp
+    in sexp exp
 
   method string_of_variable v =
     (self#string_of_variable_signature v.vsig) ^ " = " ^ (self#string_of_expression v.exp) ^ ";\n"
@@ -67,9 +65,7 @@ class backend_c = object(self)
     List.iter self#generate_declaration declarations
 
   method generate ast =
-    match ast with
-    | Program (imports, external_declarations) ->
-      List.iter (fun x -> print_string ("#include \"" ^ x ^ ".h\"\n")) imports;
-      print_string "\n";
-      self#generate_declarations external_declarations
+    List.iter (fun x -> print_string ("#include \"" ^ x ^ ".h\"\n")) ast.imports;
+    print_string "\n";
+    self#generate_declarations ast.declarations
 end
